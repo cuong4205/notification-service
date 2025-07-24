@@ -1,20 +1,31 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import * as EmailValidator from 'email-validator';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class NotificationService {
+  private readonly logger = new Logger(NotificationService.name);
+
   constructor(private readonly mailService: MailerService) {}
 
   async sendEmail(addr: string): Promise<void> {
-    await this.mailService
-      .sendMail({
-        from: 'Kingsley Okure <cuong040205@gmail.com>',
+    if (!EmailValidator.validate(addr)) {
+      this.logger.error(`Invalid email address: ${addr}`);
+      throw new BadRequestException('Invalid email address');
+    }
+    try {
+      await this.mailService.sendMail({
+        from: process.env.EMAIL_FROM,
         to: addr,
         subject: `How to Send Emails with Nodemailer`,
         text: 'This is a test email sent using nestNodemailer',
-      })
-      .catch((error) => {
-        console.error('Error sending email:', error);
       });
+
+      this.logger.log(`Email sent successfully to ${addr}`);
+    } catch (error) {
+      this.logger.error('Error sending email:', error);
+      throw error; // Re-throw to handle at controller level
+    }
   }
 }

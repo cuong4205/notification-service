@@ -9,13 +9,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'email-service-client',
+            clientId: 'notification-service-client',
             brokers: ['localhost:9092'],
             connectionTimeout: 30000,
             requestTimeout: 30000,
           },
           consumer: {
-            groupId: 'email-consumer-group',
+            groupId: 'notification-consumer-group',
             allowAutoTopicCreation: true,
             sessionTimeout: 30000,
           },
