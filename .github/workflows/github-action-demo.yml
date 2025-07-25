@@ -16,3 +16,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+  Cuong:
+    steps:
+      - name: Check my name
+      - run: echo "Toi tao la Cuong"
