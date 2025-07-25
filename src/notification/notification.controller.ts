@@ -10,9 +10,9 @@ export class NotificationController {
   }
 
   @Post('send')
-  async sendEmail(@Query('addr') addr: string) {
+  async sendEmail(@Query('addr') addr: string, @Query('msg') message: string) {
     try {
-      await this.notificationService.sendEmail(addr);
+      await this.notificationService.sendEmail(addr, message);
     } catch (error) {
       console.log(error);
       throw new Error(
