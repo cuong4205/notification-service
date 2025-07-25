@@ -24,18 +24,19 @@ describe('NotificationService', () => {
 
   it('should send email successfully with valid address', async () => {
     const email = 'valid@example.com';
-    await service.sendEmail(email);
+    const message = 'Sample email to send';
+    await service.sendEmail(email, message);
 
     expect(mailerServiceMock.sendMail).toHaveBeenCalledWith({
       from: process.env.EMAIL_FROM,
       to: email,
       subject: 'How to Send Emails with Nodemailer',
-      text: 'This is a test email sent using nestNodemailer',
+      text: message,
     });
   });
 
   it('should throw BadRequestException for invalid email', async () => {
-    await expect(service.sendEmail('invalid-email')).rejects.toThrow(
+    await expect(service.sendEmail('invalid-email', 'abblok')).rejects.toThrow(
       BadRequestException,
     );
     expect(mailerServiceMock.sendMail).not.toHaveBeenCalled();
@@ -45,8 +46,8 @@ describe('NotificationService', () => {
     (mailerServiceMock.sendMail as jest.Mock).mockRejectedValueOnce(
       new Error('Mail error'),
     );
-    await expect(service.sendEmail('valid@example.com')).rejects.toThrow(
-      'Mail error',
-    );
+    await expect(
+      service.sendEmail('valid@example.com', 'something'),
+    ).rejects.toThrow('Mail error');
   });
 });

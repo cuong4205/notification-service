@@ -9,7 +9,7 @@ export class NotificationService {
 
   constructor(private readonly mailService: MailerService) {}
 
-  async sendEmail(addr: string): Promise<void> {
+  async sendEmail(addr: string, message: string): Promise<void> {
     if (!EmailValidator.validate(addr)) {
       this.logger.error(`Invalid email address: ${addr}`);
       throw new BadRequestException('Invalid email address');
@@ -19,7 +19,7 @@ export class NotificationService {
         from: process.env.EMAIL_FROM,
         to: addr,
         subject: `How to Send Emails with Nodemailer`,
-        text: 'This is a test email sent using nestNodemailer',
+        text: message,
       });
 
       this.logger.log(`Email sent successfully to ${addr}`);

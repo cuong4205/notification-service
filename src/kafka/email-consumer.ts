@@ -10,10 +10,8 @@ export class EmailConsumer implements OnModuleInit {
   }
 
   @EventPattern('send.email')
-  async sendEmail(@Payload() data: any) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { addr } = data;
+  async sendEmail(@Payload() data: { addr: string; message: string }) {
     console.log('Received send email event:', data);
-    await this.notificationService.sendEmail(addr);
+    await this.notificationService.sendEmail(data.addr, data.message);
   }
 }
