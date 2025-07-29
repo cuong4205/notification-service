@@ -10,17 +10,20 @@ import { NotificationController } from './notification.controller';
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        transport: {
-          host: config.get<string>('EMAIL_HOST'),
-          port: parseInt(config.get<string>('EMAIL_PORT', '2525'), 10),
-          auth: {
-            user: config.get<string>('EMAIL_USERNAME'),
-            pass: config.get<string>('EMAIL_PASSWORD'),
+      // eslint-disable-next-line @typescript-eslint/require-await
+      useFactory: async (config: ConfigService) => {
+        return {
+          transport: {
+            host: config.get<string>('EMAIL_HOST'),
+            port: parseInt(config.get<string>('EMAIL_PORT', '2525'), 10),
+            auth: {
+              user: config.get<string>('EMAIL_USERNAME'),
+              pass: config.get<string>('EMAIL_PASSWORD'),
+            },
+            secure: false,
           },
-          secure: false,
-        },
-      }),
+        };
+      },
     }),
   ],
   providers: [NotificationService],
