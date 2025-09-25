@@ -30,7 +30,7 @@ describe('NotificationService', () => {
     expect(mailerServiceMock.sendMail).toHaveBeenCalledWith({
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: 'How to Send Emails with Nodemailer',
+      subject: 'Notification from NestJS',
       text: message,
     });
   });

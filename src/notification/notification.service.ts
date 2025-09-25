@@ -18,7 +18,7 @@ export class NotificationService {
       await this.mailService.sendMail({
         from: process.env.EMAIL_FROM,
         to: addr,
-        subject: `How to Send Emails with Nodemailer`,
+        subject: `Notification from NestJS`,
         text: message,
       });
 
